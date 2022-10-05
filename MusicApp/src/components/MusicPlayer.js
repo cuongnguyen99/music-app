@@ -1,12 +1,43 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { color } from '../styles/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome5'
 import Slider from '@react-native-community/slider'
+import BottomSheet from './BottomSheet'
+import { ScrollView } from 'react-native-gesture-handler'
+import {songs} from '../model/data';
+import Music from './Music'
 
+const PLAY_LIST = songs;
 export default function MusicPlayer() {
+    const [status, setStatus] = useState({
+        repeatStatus: 0,
+        isRandom: false,
+        isPlay: false,
+    });
+
+    const handleRepeatPress = () => {
+
+    }
+
+    const handleRandomPress = () => {
+
+    }
+
+    const handlePlayPress = () => {
+
+    }
+
+    const handlePlayBackPress = () => {
+
+    }
+
+    const handlePlayNextPress = () => {
+
+    }
+
   return (
+    <>
     <View style={styles.container}>
         {/* Music play image */}
         <View style={[styles.containerRow, styles.iconContainer]}>
@@ -16,9 +47,6 @@ export default function MusicPlayer() {
         <View style={[styles.containerRow, styles.songContentContainer]}>
             <Text style={[styles.text, styles.songTitle]}>{"Chuyện đôi ta"}</Text>
             <Text style={[styles.text, styles.songArtist]}>{"Emcee L"}</Text>
-        </View>
-        {/* Progress bar */}
-        <View style={[styles.containerRow, styles.progressContainer]}>
             <Slider
                 style={styles.slider}
                 minimumValue={0}
@@ -51,8 +79,18 @@ export default function MusicPlayer() {
                 <Icon name='shuffle' size={40} color={color.text}/>
             </TouchableOpacity>
         </View>
-
     </View>
+    <BottomSheet>
+        <Text style={styles.listHeader}>Danh Sách Phát</Text>
+        <ScrollView style={styles.bottomsheet} showsVerticalScrollIndicator={false}>
+            {PLAY_LIST && PLAY_LIST.map((item, index) => {
+                return (
+                    <Music key={index} song={item}/>
+                )
+            })}
+        </ScrollView>
+    </BottomSheet>
+    </>
   )
 }
 
@@ -62,7 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         paddingHorizontal: 20,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         paddingBottom: 40
     },
     text: {
@@ -83,7 +121,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     songContentContainer: {
-
+        width: '100%',
     },
     songTitle: {
         fontSize: 30,
@@ -91,15 +129,16 @@ const styles = StyleSheet.create({
     },
     songArtist: {
         color: color.sub_text,
-        fontWeight: '500'
+        fontWeight: '500',
+        marginTop: 5
     },
     progressContainer: {
-        width: '100%',
+        
     },
     slider: {
         width: '100%',
         flexDirection: 'row',
-        height: 30,
+        height: 40,
         marginVertical: 0
     },
     timerContainer: {
@@ -115,7 +154,9 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         width: '100%',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        position: 'absolute',
+        bottom: 100,
     },
     main_button: {
         backgroundColor: color.text,
@@ -125,5 +166,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 5
+    },
+
+    bottomsheet: {
+        flex: 1,
+        marginTop: 30,
+        paddingHorizontal: 10
+    },
+    listHeader: {
+        color: color.background,
+        fontSize: 20,
+        alignSelf: 'center',
+        fontWeight: '700'
     }
 })
