@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Animated, Easing } from 'react-native'
 import React, { useState } from 'react'
 import { color } from '../styles/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -10,11 +10,37 @@ import Music from './Music'
 
 const PLAY_LIST = songs;
 export default function MusicPlayer() {
+    const rotationValue = new Animated.Value(0);
     const [status, setStatus] = useState({
         repeatStatus: 0,
         isRandom: false,
         isPlay: false,
     });
+
+    console.log(status.isPlay)
+    const startRotate = () => {
+        if(!status.isPlay) {
+            Animated.timing(rotationValue, {
+                toValue: 2,
+                duration: 4000,
+                easing: Easing.linear,
+                useNativeDriver: false,
+            }).start();
+        }
+    }
+    const stopRotate = () => {
+        Animated.timing(rotationValue, {
+            toValue: 1,
+            duration: 0,
+            easing: Easing.linear,
+            useNativeDriver: false,
+        }).stop();
+    }
+
+    const RotateData = rotationValue.interpolate({
+        inputRange: [0,1],
+        outputRange: ['0deg', '360deg'],
+    })
 
     const handleRepeatPress = () => {
 
@@ -40,9 +66,9 @@ export default function MusicPlayer() {
     <>
     <View style={styles.container}>
         {/* Music play image */}
-        <View style={[styles.containerRow, styles.iconContainer]}>
+        <Animated.View style={[styles.containerRow, styles.iconContainer, {transform: [{rotate: RotateData}]}]}>
             <Icon name='musical-note' size={100} color={color.background}/>
-        </View>
+        </Animated.View>
         {/* Song name */}
         <View style={[styles.containerRow, styles.songContentContainer]}>
             <Text style={[styles.text, styles.songTitle]}>{"Chuyện đôi ta"}</Text>
@@ -69,13 +95,13 @@ export default function MusicPlayer() {
             <TouchableOpacity  style={styles.sub_button}>
                 <Icon name='play-back' size={40} color={color.text}/>
             </TouchableOpacity>
-            <TouchableOpacity  style={styles.main_button} activeOpacity={0.7}>
+            <TouchableOpacity  style={styles.main_button} activeOpacity={0.7} onPress={startRotate}>
                 <Icon name='play' size={40} color={color.background}/>
             </TouchableOpacity>
             <TouchableOpacity  style={styles.sub_button}>
                 <Icon name='play-forward' size={40} color={color.text}/>
             </TouchableOpacity>
-            <TouchableOpacity  style={styles.sub_button}>
+            <TouchableOpacity  style={styles.sub_button} onPress={stopRotate}>
                 <Icon name='shuffle' size={40} color={color.text}/>
             </TouchableOpacity>
         </View>
