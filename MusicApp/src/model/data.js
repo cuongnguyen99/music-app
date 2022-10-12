@@ -1,57 +1,17 @@
-export let songs = [
+export const songs = [
     {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
+        url: require('../assets/audio/Chim_sau.mp3'),
+        tittle: 'Chìm Sâu',
+        artist: 'RPT MCK (feat. Trung Trần)'
+    },
+    {
+        url: require('../assets/audio/Chuyen_doi_ta_lofi.mp3'),
         tittle: 'Chuyện Đôi Ta - Lofi',
         artist: 'Emcee L'
     },
     {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
-    },
-    {
-        url: '../assets/audio/Chuyện Đôi Ta - Emcee L (Da LAB) ft Muộii (Lofi Mix).mp3',
-        tittle: 'Chuyện Đôi Ta - Lofi',
-        artist: 'Emcee L'
+        url: require('../assets/audio/Tu_Tinh_2.mp3'),
+        tittle: 'Tự Tình 2',
+        artist: 'TRUNG QUÂN'
     },
 ];

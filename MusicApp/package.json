@@ -14,7 +14,7 @@
     "expo-media-library": "^14.2.0",
     "npm": "^8.19.2",
     "react": "18.1.0",
-    "react-native": "0.70.1",
+    "react-native": "0.70.2",
     "react-native-document-picker": "^8.1.1",
     "react-native-gesture-handler": "^2.7.0",
     "react-native-permissions": "^3.6.1",
