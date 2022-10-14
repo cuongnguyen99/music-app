@@ -1,19 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import React from 'react'
 import { color } from '../styles/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-export default function Music({song}) {
+export default function Music({song, style, onPress}) {
   return (
-    <View style={styles.container}>
+    <TouchableHighlight style={[styles.container, style]} onPress={onPress}>
+      <>
       <View style={styles.iconContainer}>
         <Icon  name='musical-note' size={30} color={color.background}/>
       </View>
      <View style={styles.content}>
-        <Text style={styles.songTitle}>{"Chuyện đôi ta"}</Text>
-        <Text style={styles.songArtist}>{"Emcee L"}</Text>
+        <Text style={styles.songTitle}>{song.tittle}</Text>
+        <Text style={styles.songArtist}>{song.artist}</Text>
      </View>
-    </View>
+     </>
+    </TouchableHighlight>
   )
 }
 
