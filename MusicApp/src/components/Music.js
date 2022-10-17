@@ -11,8 +11,8 @@ export default function Music({song, style, onPress}) {
         <Icon  name='musical-note' size={30} color={color.background}/>
       </View>
      <View style={styles.content}>
-        <Text style={styles.songTitle}>{song.tittle}</Text>
-        <Text style={styles.songArtist}>{song.artist}</Text>
+        <Text style={styles.songTitle}>{song?.tittle}</Text>
+        <Text style={styles.songArtist}>{song?.artist}</Text>
      </View>
      </>
     </TouchableHighlight>

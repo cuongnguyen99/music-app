@@ -25,7 +25,7 @@ import TrackPlayer, {
   useTrackPlayerEvents,
 } from 'react-native-track-player';
 
-const PLAY_LIST = songs;
+let PLAY_LIST = songs;
 const REPEAT_MODE = {NORMAL: 'normal', ALL: 'all', ONE: 'one'};
 const InitialPlayer = async () => {
   try {
@@ -50,22 +50,13 @@ export default function MusicPlayer() {
   }, []);
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
-    if(isRandom) {
-      const randomIndex = Math.floor(Math.random()*(PLAY_LIST.length));
-      console.log("Random: ", randomIndex);
-      await TrackPlayer.skip(randomIndex);
-      await TrackPlayer.play();
-      setSongIndex(randomIndex);
-    }
-    else {
-      const index = await TrackPlayer.getCurrentTrack();
-      setSongIndex(index);
-    }
+    const index = await TrackPlayer.getCurrentTrack();
+    setSongIndex(index);
   });
 
   useTrackPlayerEvents([Event.PlaybackQueueEnded], async event => {
     await TrackPlayer.skip(0);
-  })
+  });
 
   const RotateData = rotationValue.interpolate({
     inputRange: [0, 1],
@@ -102,9 +93,15 @@ export default function MusicPlayer() {
 
   const handlePlayNextPress = async () => {
     try {
-      if (songIndex === PLAY_LIST.length - 1) {
+      if(isRandom) {
+        playRandomSong();
+        return;
+      }
+      else if (songIndex === PLAY_LIST.length - 1) {
         await TrackPlayer.skip(0);
-        return setSongIndex(0);
+        await TrackPlayer.pause();
+        setSongIndex(0);
+        return ;
       }
       await TrackPlayer.skip(songIndex + 1);
       return setSongIndex(songIndex + 1);
@@ -116,7 +113,7 @@ export default function MusicPlayer() {
   const handlePlaylistItemPress = async index => {
     try {
       if (index === songIndex) {
-        if(playBackState !== State.Playing) {
+        if (playBackState !== State.Playing) {
           await TrackPlayer.play();
         }
         return;
@@ -127,6 +124,19 @@ export default function MusicPlayer() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const playRandomSong = async () => {
+    let tmp = Math.floor(Math.random()*PLAY_LIST.length);
+    while(tmp === songIndex) {
+      tmp = Math.floor(Math.random()*PLAY_LIST.length);
+    }
+    await TrackPlayer.skip(tmp);
+    setSongIndex(tmp);
+  } 
+
+  const handleRandomButtonPress = async () => {
+    setIsRandom(!isRandom);
   };
 
   const onNormalRepeatPress = async () => {
@@ -156,11 +166,11 @@ export default function MusicPlayer() {
         </Animated.View>
         {/* Song name */}
         <View style={[styles.containerRow, styles.songContentContainer]}>
-          <Text style={[styles.text, styles.songTitle]}>
-            {PLAY_LIST[songIndex].tittle}
+          <Text style={[styles.text, styles.songTitle]} numberOfLines={2} ellipsizeMode={'tail'}>
+            {PLAY_LIST[songIndex]?.tittle}
           </Text>
           <Text style={[styles.text, styles.songArtist]}>
-            {PLAY_LIST[songIndex].artist}
+            {PLAY_LIST[songIndex]?.artist}
           </Text>
           <Slider
             value={progress.position}
@@ -169,10 +179,6 @@ export default function MusicPlayer() {
             minimumTrackTintColor={color.text}
             maximumTrackTintColor={color.sub_text}
             thumbTintColor={color.text}
-            onValueChange={async value => {
-              await TrackPlayer.seekTo(value[0]);
-            }}
-            step={1}
             onSlidingComplete={async value => {
               await TrackPlayer.seekTo(value[0]);
             }}
@@ -245,7 +251,7 @@ export default function MusicPlayer() {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.sub_button}
-            onPress={() => setIsRandom(!isRandom)}>
+            onPress={handleRandomButtonPress}>
             <Icon
               name="shuffle"
               size={40}
@@ -261,7 +267,7 @@ export default function MusicPlayer() {
           showsVerticalScrollIndicator={false}>
           {PLAY_LIST &&
             PLAY_LIST.map((item, index) => {
-              if(index === songIndex && playBackState === State.Playing) {
+              if (index === songIndex && playBackState === State.Playing) {
                 return (
                   <Music
                     key={index}
@@ -317,6 +323,7 @@ const styles = StyleSheet.create({
   songTitle: {
     fontSize: 30,
     fontWeight: '700',
+    textAlign: 'center'
   },
   songArtist: {
     color: color.sub_text,
@@ -376,6 +383,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   songActive: {
-    backgroundColor: color.item_active
-  }
+    backgroundColor: color.item_active,
+  },
 });
